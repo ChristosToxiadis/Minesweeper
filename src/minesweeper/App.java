@@ -41,7 +41,6 @@ public class App extends JFrame implements MouseListener{
 		int value, choice;
 		if(ev.getButton() == 1){
 			if(first_time){//Αυτος ο κώδικας εκτελείται την πρώτη φορά που πατάει ο χρήστης ένα κουμπί
-				System.out.println("YES!!");
 				int[] ar = gui.get_first_button_clicked((JButton)ev.getComponent());// Επιστρέφει ένα διθέσιο πίνακα με τις συντεταγμένες του κουμπιού που πατήθηκε πρώτο
 				engine = new Engine(rows,col,bombs);
 				int[][] array = engine.put_bombs(ar,gui.getJButton(),(JButton)ev.getComponent());//Επισρέφει 2-διάστατο πίνακα[αριθ.βομβ][2] όπου για κάθε βόμβα έχει συντετ. 
@@ -59,18 +58,7 @@ public class App extends JFrame implements MouseListener{
 				if(value == -1){
 					gui.game_over();
 					choice = JOptionPane.showConfirmDialog(null, "Τέλος Παιχνιδιού. Θέλετε να ξαναπαίξετε;","ΧΑΣΑΤΕ",JOptionPane.YES_NO_OPTION);
-					if(choice == 1)
-						System.exit(0);
-					else{
-						engine.game_over();
-						gui.setDefault();
-						Dialog ob = new Dialog(this);
-						counter = rows * col - bombs;
-						getContentPane().remove(gui);
-						gui = new Graphics(rows,col);
-						getContentPane().add(gui, BorderLayout.CENTER);
-						first_time = true;
-					}
+					start_new_game(choice);
 				}
 				else if(value > 0){
 					counter -= gui.paint((JButton)ev.getComponent(), value);
@@ -80,13 +68,29 @@ public class App extends JFrame implements MouseListener{
 					counter -= engine.getCorrect() + engine.getCounter();
 					engine.setCorrect();
 				}
-				if(counter <= 0)
-					JOptionPane.showMessageDialog(null, "ΝΙΚΗΣΕΣ!!!!!!!");
+				if(counter <= 0) {
+					choice = JOptionPane.showConfirmDialog(null, "ΝΙΚΗΣΕΣ!!!!!!! Θέλετε να ξαναπαίξετε;","ΝΙΚΗΣΑΤΕ",JOptionPane.YES_NO_OPTION);
+					start_new_game(choice);
+				}
 				
 			}
 		}
 		else if(ev.getButton() == 3)
 			gui.setFlag((JButton)ev.getComponent());
+	}
+	
+	
+	private void start_new_game(int choice) {
+		if(choice == 1)
+			System.exit(0);
+		else{
+			engine.game_over();
+			gui.setDefault();
+			counter = rows * col - bombs;
+			getContentPane().remove(gui);
+			getContentPane().add(gui, BorderLayout.CENTER);
+			first_time = true;
+		}
 	}
 	
 	
