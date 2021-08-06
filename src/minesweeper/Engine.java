@@ -156,7 +156,7 @@ public class Engine {
 			neighbors[counter][1] = sel_col + 1;
 			counter++;
 		}
-		catch(Exception ex){/*System.out.println(ex.toString() + " " + ex.getMessage() + "!1");*/}
+		catch(Exception ex){}
 		
 		try{
 			help = button[sel_row][sel_col-1];
