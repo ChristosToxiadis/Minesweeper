@@ -160,6 +160,8 @@ public class App extends JFrame implements MouseListener{
 				col = Integer.parseInt(col_text.getText());
 				bombs = Integer.parseInt(bombs_text.getText());
 			}
+			else if(ev.getSource().equals(button_cancel))
+				System.exit(0);
 			setVisible(false);
 		}
 		
